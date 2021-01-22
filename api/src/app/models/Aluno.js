@@ -16,8 +16,16 @@ class Aluno extends Model {
         tableName: 'aluno'
       }
     );
+  }
 
-    return this;
+  static associate(models) {
+
+    this.belongsToMany(models.Curso, { 
+      foreignKey: 'id_pessoa', 
+      through: 'curso_pessoa', 
+      as: 'cursos' 
+    });
+
   }
 }
 

@@ -2,20 +2,16 @@ import Sequelize from 'sequelize';
 import databaseConfig from '../config/database';
 
 import Aluno from '../app/models/Aluno';
+import Curso from '../app/models/Curso';
+import CursoAluno from '../app/models/CursoAluno';
 
-const models = [Aluno];
+const connection = new Sequelize(databaseConfig);
 
-class Database {
-  constructor() {
-    this.init();
-  }
+Aluno.init(connection);
+Curso.init(connection);
+CursoAluno.init(connection);
 
-  init() {
-    this.connection = new Sequelize(databaseConfig);
-    models
-      .map(model => model.init(this.connection))
-      .map(model => model.associate && model.associate(this.connection.models));
-  }
-}
+Aluno.associate(connection.models);
+Curso.associate(connection.models);
 
-export default new Database();
+export default connection;
